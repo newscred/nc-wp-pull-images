@@ -21,7 +21,11 @@ if ( ! function_exists( 'nc_pull_images_wp_ml' ) ) {
 		//allow pull for following domains
 		//e.g., CDN URL
 		$domain_whitelist = [
-			'newscred.com',
+			'images-cdn.newscred.com',
+			'images1.newscred.com',
+			'images2.newscred.com',
+			'images3.newscred.com',
+			'images4.newscred.com',
 		];
 
 		//skip pull for following domains
