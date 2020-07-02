@@ -29,12 +29,16 @@ max_execution_time = 300
 This plugin will pull images from only whitelisted domains (LINE:22)
 ``` 
 $domain_whitelist = [
-    'newscred.com'
+    'images-cdn.newscred.com',
+    'images1.newscred.com',
+    'images2.newscred.com',
+    'images3.newscred.com',
+    'images4.newscred.com',
 ];
 ```
 
 ##### BLACKLIST DOMAIN(S)
-if you want to ignore any domain from being pulled, update the domain_whitelist array (LINE:22)
+If you want to ignore any domain from being pulled, update the domain_whitelist array (LINE:33)
 ``` 
 $domain_blacklist = [
     preg_replace( "(^https?://)", "", get_home_url() ),
