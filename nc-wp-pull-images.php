@@ -18,6 +18,11 @@
 if ( ! function_exists( 'nc_pull_images_wp_ml' ) ) {
 	function nc_pull_images_wp_ml( $post_ID, $post ) {
 
+		//Check it's not an auto save routine
+		if ( $post->post_status !== 'publish' && $post->post_status !== 'draft' ) {
+			return;
+		}
+
 		//allow pull for following domains
 		//e.g., CDN URL
 		$domain_whitelist = [
@@ -41,7 +46,7 @@ if ( ! function_exists( 'nc_pull_images_wp_ml' ) ) {
 
 			//get a list of images
 			$doc = new DOMDocument();
-			$doc->loadHTML( $post->post_content );
+			$doc->loadHTML( html_entity_decode( $post->post_content ) );
 			$images = $doc->getElementsByTagName( 'img' );
 
 			//cdn images
@@ -90,7 +95,11 @@ if ( ! function_exists( 'nc_pull_images_wp_ml' ) ) {
 
 				//update post content
 				$post->post_content = nc_update_inline_images( $cmp_ml_images, $post->post_content );
+
+				//unhook this function so it doesn't loop infinitely
+				remove_action('save_post', 'nc_pull_images_wp_ml', 10);
 				wp_update_post( $post );
+				add_action('save_post', 'nc_pull_images_wp_ml', 10, 2);
 
 			}
 		}
